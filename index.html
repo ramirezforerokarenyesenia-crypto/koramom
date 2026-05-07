@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MamáPrimeriza - Tu guía confiable</title>
+    <!-- Tailwind CSS desde CDN (gratuito) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración de colores suaves -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mama-rosa': '#fce7f3',
+                        'mama-rosa-oscuro': '#f472b6',
+                        'mama-cielo': '#e0f2fe',
+                        'mama-texto': '#374151'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-mama-rosa min-h-screen font-sans text-mama-texto">
+
+    <!-- NAVEGACIÓN SUPERIOR -->
+    <nav class="bg-white shadow-md p-4 sticky top-0 z-50">
+        <h1 class="text-2xl font-bold text-mama-rosa-oscuro text-center">🤱 MamáPrimeriza</h1>
+        <p class="text-sm text-center text-gray-500">Tu compañera en esta hermosa aventura</p>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="container mx-auto px-4 py-6 max-w-md">
+
+        <!-- SECCIÓN 1: BIENVENIDA + FRASE DEL DÍA -->
+        <section id="bienvenida" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 text-mama-rosa-oscuro">✨ Bienvenida, mamá</h2>
+            <div class="bg-mama-cielo rounded-xl p-4 text-center">
+                <p id="frase-del-dia" class="italic text-lg">"Ser madre es aprender a tener el corazón fuera del cuerpo"</p>
+                <button onclick="nuevaFrase()" class="mt-3 bg-mama-rosa-oscuro text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition">
+                    💫 Nueva frase
+                </button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: CALCULADORA DE ALIMENTACIÓN -->
+        <section id="calculadora" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 text-mama-rosa-oscuro">🍼 Calculadora de Leche</h2>
+            <label class="block text-sm mb-2">Peso del bebé (gramos):</label>
+            <input type="number" id="peso-bebe" placeholder="Ej: 3500" class="w-full border-2 border-pink-200 rounded-lg p-2 mb-3">
+            <button onclick="calcularLeche()" class="w-full bg-mama-rosa-oscuro text-white py-2 rounded-lg hover:bg-pink-600 transition">
+                Calcular onzas necesarias
+            </button>
+            <div id="resultado-leche" class="mt-4 bg-mama-cielo rounded-lg p-3 hidden">
+                <!-- Aquí aparecerá el resultado -->
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: CHECKLIST DE COMPRAS -->
+        <section id="compras" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 text-mama-rosa-oscuro">🛍️ Checklist Esencial</h2>
+            <div class="space-y-2" id="lista-compras">
+                <!-- Los items se agregarán con JavaScript -->
+            </div>
+            <div class="mt-4 flex gap-2">
+                <input type="text" id="nuevo-item" placeholder="Agregar item..." class="flex-1 border-2 border-pink-200 rounded-lg p-2">
+                <button onclick="agregarItem()" class="bg-mama-rosa-oscuro text-white px-4 rounded-lg">+</button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: GUÍA DE LACTANCIA -->
+        <section id="lactancia" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 text-mama-rosa-oscuro">🤱 Guía de Lactancia</h2>
+            <div class="space-y-3">
+                <details class="bg-mama-rosa rounded-lg p-3 cursor-pointer">
+                    <summary class="font-semibold">Posiciones correctas para amamantar</summary>
+                    <p class="mt-2 text-sm text-gray-600">Contenido pendiente...</p>
+                </details>
+                <details class="bg-mama-rosa rounded-lg p-3 cursor-pointer">
+                    <summary class="font-semibold">Cómo saber si el bebé está tomando suficiente</summary>
+                    <p class="mt-2 text-sm text-gray-600">Contenido pendiente...</p>
+                </details>
+                <details class="bg-mama-rosa rounded-lg p-3 cursor-pointer">
+                    <summary class="font-semibold">Problemas comunes y soluciones</summary>
+                    <p class="mt-2 text-sm text-gray-600">Contenido pendiente...</p>
+                </details>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: BEBÉ ENFERMO -->
+        <section id="enfermo" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 text-mama-rosa-oscuro">🌡️ ¿Tu bebé se siente mal?</h2>
+            <div id="arbol-decisiones" class="bg-red-50 border-2 border-red-200 rounded-xl p-4">
+                <p class="font-semibold mb-3">¿El bebé tiene fiebre? (temperatura > 38°C)</p>
+                <div class="flex gap-3">
+                    <button onclick="decision('fiebre-si')" class="flex-1 bg-red-400 text-white py-2 rounded-lg">Sí</button>
+                    <button onclick="decision('fiebre-no')" class="flex-1 bg-green-400 text-white py-2 rounded-lg">No</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: CUNAS SEGURAS -->
+        <section id="cunas" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 text-mama-rosa-oscuro">🛏️ Cunas Seguras</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-mama-cielo rounded-xl p-3 text-center">
+                    <div class="text-3xl mb-2">✅</div>
+                    <p class="text-sm font-semibold">Cuna con barrotes verticales</p>
+                </div>
+                <div class="bg-red-100 rounded-xl p-3 text-center">
+                    <div class="text-3xl mb-2">❌</div>
+                    <p class="text-sm font-semibold">Cuna con barrotes horizontales</p>
+                </div>
+            </div>
+            <div class="mt-4 bg-yellow-50 rounded-xl p-3 border-2 border-yellow-300">
+                <p class="text-sm font-bold text-yellow-800">💡 Alternativa Low-Cost:</p>
+                <p class="text-sm text-yellow-700">Moisés de cartón reforzado con colchón firme...</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-white mt-8 py-4 text-center text-sm text-gray-500">
+        <p>Hecho con ❤️ por estudiantes ENS Tunja</p>
+        <p class="text-xs mt-1">Esta app no reemplaza el consejo médico profesional</p>
+    </footer>
+
+    <!-- JAVASCRIPT (Lógica básica inicial) -->
+    <script>
+        // === FRASES MOTIVADORAS ===
+        const frases = [
+            "Ser madre es aprender a tener el corazón fuera del cuerpo",
+            "Cada día eres más fuerte de lo que imaginas",
+            "El amor de una madre es el combustible que permite hacer lo imposible",
+            "No eres una mamá perfecta, eres la mamá perfecta para tu bebé",
+            "Descansa cuando puedas, esta etapa también pasará",
+            "Confía en tu instinto, mamá siempre sabe",
+            "Cada lágrima de tu bebé es una oportunidad para consolarlo",
+            "Estás haciendo un trabajo increíble, aunque no lo sientas así"
+        ];
+
+        function nuevaFrase() {
+            const aleatoria = frases[Math.floor(Math.random() * frases.length)];
+            document.getElementById('frase-del-dia').textContent = `"${aleatoria}"`;
+        }
+
+        // === CALCULADORA DE LECHE ===
+        // Fórmula: 150ml por kg de peso, dividido en tomas (8 tomas en 24h)
+        function calcularLeche() {
+            const peso = document.getElementById('peso-bebe').value;
+            if (!peso || peso <= 0) {
+                alert('Por favor ingresa un peso válido en gramos');
+                return;
+            }
+            
+            const pesoKg = peso / 1000;
+            const mlTotal = pesoKg * 150; // 150ml por kg cada 24h
+            const mlPorToma = mlTotal / 8; // 8 tomas al día
+            const onzasPorToma = (mlPorToma / 30).toFixed(1); // 1 onza = 30ml
+            
+            const resultadoDiv = document.getElementById('resultado-leche');
+            resultadoDiv.classList.remove('hidden');
+            resultadoDiv.innerHTML = `
+                <p class="font-bold text-mama-rosa-oscuro">📊 Resultado:</p>
+                <p class="text-sm mt-1">Total diario: <strong>${mlTotal.toFixed(0)} ml</strong></p>
+                <p class="text-sm">Por toma (8 al día): <strong>${mlPorToma.toFixed(0)} ml</strong></p>
+                <p class="text-sm text-mama-rosa-oscuro font-bold mt-2">≈ ${onzasPorToma} onzas por toma</p>
+                <p class="text-xs text-gray-500 mt-2">⚠️ Consulta con tu pediatra para ajustes personalizados</p>
+            `;
+        }
+
+        // === CHECKLIST DE COMPRAS ===
+        const itemsDefault = [
+            'Pañales talla recién nacido',
+            'Toallitas húmedas sin alcohol',
+            'Ropita de algodón (5 bodies)',
+            'Mantas ligeras',
+            'Termómetro digital',
+            'Crema para pañal',
+            'Gasas esterilizadas',
+            'Chupete (1-2 unidades)'
+        ];
+
+        function cargarChecklist() {
+            const contenedor = document.getElementById('lista-compras');
+            // Cargar desde LocalStorage si existe, si no usar defaults
+            let items = JSON.parse(localStorage.getItem('checklist')) || itemsDefault;
+            
+            contenedor.innerHTML = items.map((item, index) => `
+                <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-mama-rosa-oscuro rounded" 
+                           ${item.checked ? 'checked' : ''} 
+                           onchange="toggleItem(${index})">
+                    <span class="${item.checked ? 'line-through text-gray-400' : ''}">${item.text || item}</span>
+                    <button onclick="eliminarItem(${index})" class="ml-auto text-red-400 hover:text-red-600">×</button>
+                </label>
+            `).join('');
+        }
+
+        function agregarItem() {
+            const input = document.getElementById('nuevo-item');
+            const texto = input.value.trim();
+            if (!texto) return;
+            
+            let items = JSON.parse(localStorage.getItem('checklist')) || itemsDefault.map(i => ({text: i, checked: false}));
+            items.push({text: texto, checked: false});
+            localStorage.setItem('checklist', JSON.stringify(items));
+            input.value = '';
+            cargarChecklist();
+        }
+
+        function toggleItem(index) {
+            let items = JSON.parse(localStorage.getItem('checklist')) || itemsDefault.map(i => ({text: i, checked: false}));
+            items[index].checked = !items[index].checked;
+            localStorage.setItem('checklist', JSON.stringify(items));
+            cargarChecklist();
+        }
+
+        function eliminarItem(index) {
+            let items = JSON.parse(localStorage.getItem('checklist')) || itemsDefault.map(i => ({text: i, checked: false}));
+            items.splice(index, 1);
+            localStorage.setItem('checklist', JSON.stringify(items));
+            cargarChecklist();
+        }
+
+        // === ÁRBOL DE DECISIONES (BEBÉ ENFERMO) ===
+        function decision(respuesta) {
+            const contenedor = document.getElementById('arbol-decisiones');
+            
+            if (respuesta === 'fiebre-si') {
+                contenedor.innerHTML = `
+                    <div class="text-red-600 font-bold mb-3">🚨 Llama a tu pediatra AHORA</div>
+                    <p class="text-sm mb-3">Fiebre en bebés menores de 3 meses requiere atención médica inmediata.</p>
+                    <p class="text-sm bg-white p-2 rounded">Mientras tanto: Quitar capas de ropa, dar baño tibio (no frío), mantener hidratado.</p>
+                    <button onclick="reiniciarDecision()" class="mt-3 text-sm text-blue-500 underline">← Volver al inicio</button>
+                `;
+            } else if (respuesta === 'fiebre-no') {
+                contenedor.innerHTML = `
+                    <p class="font-semibold mb-3">¿Tiene dificultad para respirar?</p>
+                    <div class="flex gap-3">
+                        <button onclick="decision('respiracion-si')" class="flex-1 bg-red-400 text-white py-2 rounded-lg">Sí</button>
+                        <button onclick="decision('respiracion-no')" class="flex-1 bg-green-400 text-white py-2 rounded-lg">No</button>
+                    </div>
+                    <button onclick="reiniciarDecision()" class="mt-3 text-sm text-blue-500 underline">← Volver</button>
+                `;
+            } else if (respuesta === 'respiracion-si') {
+                contenedor.innerHTML = `
+                    <div class="text-red-600 font-bold mb-3">🚨 URGENTE: Ve al médico</div>
+                    <p class="text-sm">Respiración rápida, ruidosa o con tiraje necesita evaluación médica inmediata.</p>
+                    <button onclick="reiniciarDecision()" class="mt-3 text-sm text-blue-500 underline">← Volver al inicio</button>
+                `;
+            } else if (respuesta === 'respiracion-no') {
+                contenedor.innerHTML = `
+                    <div class="text-green-600 font-bold mb-3">✅ Posiblemente no es grave</div>
+                    <p class="text-sm mb-3">Observa a tu bebé. Si tiene:</p>
+                    <ul class="text-sm list-disc pl-4 mb-3">
+                        <li>Irritabilidad excesiva</li>
+                        <li>No quiere comer</li>
+                        <li>Vómito persistente</li>
+                        <li>Somnolencia inusual</li>
+                    </ul>
+                    <p class="text-sm font-bold">Consulta al pediatra en las próximas 24h.</p>
+                    <button onclick="reiniciarDecision()" class="mt-3 text-sm text-blue-500 underline">← Volver al inicio</button>
+                `;
+            }
+        }
+
+        function reiniciarDecision() {
+            document.getElementById('arbol-decisiones').innerHTML = `
+                <p class="font-semibold mb-3">¿El bebé tiene fiebre? (temperatura > 38°C)</p>
+                <div class="flex gap-3">
+                    <button onclick="decision('fiebre-si')" class="flex-1 bg-red-400 text-white py-2 rounded-lg">Sí</button>
+                    <button onclick="decision('fiebre-no')" class="flex-1 bg-green-400 text-white py-2 rounded-lg">No</button>
+                </div>
+            `;
+        }
+
+        // Inicializar checklist al cargar la página
+        cargarChecklist();
+    </script>
+
+</body>
+</html>
